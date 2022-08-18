@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ProvaCandidato.Data.Entidade.Cliente>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Listagem</h2>
+
+<p>
+    @Html.ActionLink("Novo", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Cidade.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataNascimento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cidade.Nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataNascimento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ativo)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.Codigo }) |
+            @Html.ActionLink("Detalhes", "Details", new { id=item.Codigo }) |
+            @Html.ActionLink("Deletar", "Delete", new { id=item.Codigo })
+        </td>
+    </tr>
+}
+
+</table>
