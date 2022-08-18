@@ -52,6 +52,7 @@
     <Compile Include="ContextoPrincipal.cs" />
     <Compile Include="Entidade\Cidade.cs" />
     <Compile Include="Entidade\Cliente.cs" />
+    <Compile Include="Interface\ICidadeRepositorio.cs" />
     <Compile Include="Interface\IClienteRepositorio.cs" />
     <Compile Include="Interface\IRepositorio.cs" />
     <Compile Include="Migrations\202208181412189_NovasTabelas.cs" />

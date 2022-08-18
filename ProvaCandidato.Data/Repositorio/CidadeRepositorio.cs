@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ProvaCandidato.Data.Entidade;
+using ProvaCandidato.Data.Interface;
 
 namespace ProvaCandidato.Data.Repositorio
 {
-    class CidadeRepositorio
+    public class CidadeRepositorio : Repositorio<Cidade>, ICidadeRepositorio
     {
+        public CidadeRepositorio(ContextoPrincipal context) : base(context)
+        {
+        }
+
     }
 }
