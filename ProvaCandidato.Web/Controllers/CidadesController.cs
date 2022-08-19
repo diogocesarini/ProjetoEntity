@@ -1,34 +1,117 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using AutoMapper;
 using ProvaCandidato.Data;
 using ProvaCandidato.Data.Entidade;
-
+using ProvaCandidato.Data.Interface;
+using ProvaCandidato.Helper;
+using ProvaCandidato.Models;
 
 namespace ProvaCandidato.Controllers
 {
     public class CidadesController : Controller
     {
         private ContextoPrincipal db = new ContextoPrincipal();
+        private readonly ICidadeRepositorio _cidadeRepositorio;
+        private readonly IMapper _mapper;
 
-        // GET: Cidades
+        public CidadesController(ICidadeRepositorio cidadeRepositorio, IMapper mapper)
+        {
+            _cidadeRepositorio = cidadeRepositorio;
+            _mapper = mapper;
+        }
+
         public ActionResult Index()
+        {
+            try
+            {
+                ViewBag.Empresas = ConfigurationManager.AppSettings["MensagemEmpresa"];
+                var cidades = _mapper.Map<List<CidadeModel>>(_cidadeRepositorio.BuscarTodos());
+                return View(cidades);
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public ActionResult Details(int id)
+        {
+            try
+            {
+                if (id == 0)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                CidadeModel cidade = _mapper.Map<CidadeModel>(_cidadeRepositorio.BuscarPorId(id));
+                if (cidade == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(cidade);
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+
+        }
+
+        public ActionResult Create()
+        {
+            try
+            {
+                ViewBag.Empresas = ConfigurationManager.AppSettings["MensagemEmpresa"];
+                CidadeModel cidadeModel = new CidadeModel();
+
+                return View(cidadeModel);
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+          
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(CidadeModel cidade)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _cidadeRepositorio.AdicionarOuAtualizarESalvar(_mapper.Map<Cidade>(cidade));
+                    Helper.MessageHelper.DisplaySuccessMessage(this, "Criado com sucesso!");
+
+                    return RedirectToAction("Index");
+                }
+
+                return View(cidade);
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+            
+        }
+
+        public ActionResult Edit(int id)
         {
             ViewBag.Empresas = ConfigurationManager.AppSettings["MensagemEmpresa"];
 
-            return View(db.Cidades.ToList());
-        }
-
-        // GET: Cidades/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
+            if (id == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cidade cidade = db.Cidades.Find(id);
+            CidadeModel cidade = _mapper.Map<CidadeModel>(_cidadeRepositorio.BuscarPorId(id));
             if (cidade == null)
             {
                 return HttpNotFound();
@@ -36,68 +119,28 @@ namespace ProvaCandidato.Controllers
             return View(cidade);
         }
 
-        // GET: Cidades/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Cidades/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Codigo,Nome")] Cidade cidade)
+        public ActionResult Edit(CidadeModel cidade)
         {
             if (ModelState.IsValid)
             {
-                db.Cidades.Add(cidade);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(cidade);
-        }
-
-        // GET: Cidades/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Cidade cidade = db.Cidades.Find(id);
-            if (cidade == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cidade);
-        }
-
-        // POST: Cidades/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Codigo,Nome")] Cidade cidade)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(cidade).State = EntityState.Modified;
-                db.SaveChanges();
+                _cidadeRepositorio.AdicionarOuAtualizarESalvar(_mapper.Map<Cidade>(cidade));
+                Helper.MessageHelper.DisplaySuccessMessage(this, "Editado com sucesso!");
                 return RedirectToAction("Index");
             }
             return View(cidade);
         }
 
-        // GET: Cidades/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
-            if (id == null)
+            ViewBag.Empresas = ConfigurationManager.AppSettings["MensagemEmpresa"];
+
+            if (id == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cidade cidade = db.Cidades.Find(id);
+            CidadeModel cidade = _mapper.Map<CidadeModel>(_cidadeRepositorio.BuscarPorId(id));
             if (cidade == null)
             {
                 return HttpNotFound();
@@ -105,24 +148,18 @@ namespace ProvaCandidato.Controllers
             return View(cidade);
         }
 
-        // POST: Cidades/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Cidade cidade = db.Cidades.Find(id);
-            db.Cidades.Remove(cidade);
-            db.SaveChanges();
+            Cidade cidade = _cidadeRepositorio.BuscarPorId(id);
+            _cidadeRepositorio.Deletar(cidade);
+            _cidadeRepositorio.Salvar();
+
+            Helper.MessageHelper.DisplaySuccessMessage(this, "Deletado com sucesso!");
+            
             return RedirectToAction("Index");
         }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+       
     }
 }

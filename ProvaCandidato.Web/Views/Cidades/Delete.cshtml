@@ -1,5 +1,4 @@
-﻿@model ProvaCandidato.Data.Entidade.Cidade
-
+﻿@model ProvaCandidato.Models.CidadeModel
 @{
     ViewBag.Title = "Deletar";
 }
@@ -21,7 +20,8 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">

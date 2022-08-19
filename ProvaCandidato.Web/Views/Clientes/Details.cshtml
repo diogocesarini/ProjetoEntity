@@ -1,4 +1,4 @@
-﻿@model ProvaCandidato.Data.Entidade.Cliente
+﻿@model ProvaCandidato.Models.ClienteModel
 
 @{
     ViewBag.Title = "Detalhes";
@@ -11,11 +11,11 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Cidade.Nome)
+            @Html.DisplayNameFor(model => model.CidadeNome)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Cidade.Nome)
+            @Html.DisplayFor(model => model.CidadeNome)
         </dd>
 
         <dt>
