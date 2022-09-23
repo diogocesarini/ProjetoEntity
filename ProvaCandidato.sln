@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32901.82
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvaCandidato.Web", "ProvaCandidato.Web\ProvaCandidato.Web.csproj", "{7950FCB1-0E26-485E-BE00-CD8460258C84}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetoEntity.Web", "ProjetoEntity.Web\ProjetoEntity.Web.csproj", "{7950FCB1-0E26-485E-BE00-CD8460258C84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvaCandidato.Data", "ProvaCandidato.Data\ProvaCandidato.Data.csproj", "{8D1E713B-813C-4C75-9C8B-5778DACD2CE0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetoEntity.Data", "ProjetoEntity.Data\ProjetoEntity.Data.csproj", "{8D1E713B-813C-4C75-9C8B-5778DACD2CE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +24,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {31C598ED-4B73-40F7-8E50-BFC33E71231F}
 	EndGlobalSection
 EndGlobal

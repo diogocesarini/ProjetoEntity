@@ -323,9 +323,9 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ProvaCandidato.Data\ProvaCandidato.Data.csproj">
+    <ProjectReference Include="..\ProjetoEntity.Data\ProjetoEntity.Data.csproj">
       <Project>{8d1e713b-813c-4c75-9c8b-5778dacd2ce0}</Project>
-      <Name>ProvaCandidato.Data</Name>
+      <Name>ProjetoEntity.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
